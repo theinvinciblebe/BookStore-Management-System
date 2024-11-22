@@ -1,0 +1,188 @@
+{% load static %}
+{% include "customadmin/includes/head.html "%}
+
+  <!-- Main Sidebar Container -->
+  {% include 'customadmin/includes/aside.html' %}
+
+    <!-- Content Wrapper -->
+    {% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Products</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Projects</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Projects</h3>
+          <div class="card-tools">
+              <a href="{% url 'product_add' %}">
+                <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#addProductModal">
+                    <i class="bi bi-patch-plus">Add</i>
+                </button>
+              </a>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <table class="table table-striped projects">
+              <thead>
+                  <tr>
+                      <th style="width: 5%">
+                          <a href="">
+                            <button type="button" class="btn btn-outline-info">
+                            <i class="bi bi-patch-plus"></i>
+                            </button>
+                          </a>
+                      </th>
+                      <th style="width: 20%">
+                          Product Name
+                      </th>
+                      <th style="width: 5%">
+                          Price
+                      </th>
+                      <th style="width: 5%">
+                          Stock
+                      </th>
+                      <th style="width: 15%">
+                          Category
+                      </th>
+                      <th style="width: 10%">
+                          Image
+                      </th>
+                      <th style="width: 20%">
+                          Description
+                      </th>
+                      <th style="width: 8%" class="text-center">
+                          Status
+                      </th>
+                      <th style="width: 20%" >
+
+                      </th>
+
+                  </tr>
+              </thead>
+              {% for product in products %}
+              <tbody>
+                  <tr>
+                      <td>
+                          {{ forloop.counter }}
+                      </td>
+                      <td>
+                          <b>
+                              {{ product.product_name }}
+                          </b>
+                          <br/>
+                          <small>
+                              {{ product.created_at }}
+                          </small>
+                      </td>
+                      <td>{{ product.price }}</td>
+                      <td>{{ product.stock }}</td>
+                      <td>{{ product.category.category_name }}</td>
+                      <td>
+                          {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.product_name }}" height="50">
+                          {% else %}
+                            No image
+                          {% endif %}
+                      </td>
+                      <td>{{ product.description }}</td>
+
+                      <td class="project-state">
+                          <span class="badge badge-success">Activate</span>
+                      </td>
+                        <td class="project-actions text-right">
+                            <a href="{% url 'product_edit' product.id %}" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </a>
+                            <a href="{% url 'product_delete' product.id %}" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </td>
+                  </tr>
+              </tbody>
+              {% endfor %}
+          </table>
+        </div>
+        <!-- /.card-body -->
+<div class="card-footer">
+    <div class="col-sm-12 d-flex justify-content-between align-items-center">
+        <div class="dataTables_paginate paging_simple_numbers">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="paginate_button page-item previous">
+                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="paginate_button page-item previous disabled">
+                        <a href="#" class="page-link">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="paginate_button page-item active">
+                            <a href="#" class="page-link">{{ num }}</a>
+                        </li>
+                    {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                        <li class="paginate_button page-item">
+                            <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="paginate_button page-item next">
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a>
+                    </li>
+                {% else %}
+                    <li class="paginate_button page-item next disabled">
+                        <a href="#" class="page-link">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- Logout Button -->
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger ml-3">Logout</a>
+    </div>
+</div>
+
+
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+    {% endblock %}
+
+
+{% include 'customadmin/includes/foot.html'%}
+
+
+
+
+

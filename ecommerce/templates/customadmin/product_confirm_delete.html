@@ -1,0 +1,22 @@
+{% extends "customadmin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="card card-danger" style="width: 50%; max-width: 600px;">
+        <div class="card-header">
+            <h3 class="card-title">Delete Product</h3>
+        </div>
+        <div class="card-body text-center">
+            <p>Are you sure you want to delete the product <strong>{{ product.product_name }}</strong>?</p>
+            <p>This action cannot be undone.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-around">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            </form>
+            <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% load static %}
+{% include "customadmin/includes/head.html "%}
+
+
+  <!-- Main Sidebar Container -->
+  {% include 'customadmin/includes/aside.html' %}
+
+    <!-- Content Wrapper -->
+    {% block content %}
+        {% include 'customadmin/includes/product_list.html' %} >
+    {% endblock %}
+
+
+
+
+{% include 'customadmin/includes/foot.html'%}
