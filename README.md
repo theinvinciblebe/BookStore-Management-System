@@ -1,1 +1,0 @@
-# BookStore-Management-System
